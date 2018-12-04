@@ -36,7 +36,7 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('asset_prices', function(table) {
       table.increments('id').primary();
       table.string('price');
-      table.integer('pricing_date');
+      table.string('pricing_date');
       table.integer('asset_id').unsigned();
       table.foreign('asset_id')
         .references('assets.id');
@@ -51,6 +51,7 @@ exports.down = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('favorites'),
     knex.schema.dropTable('users'),
+    knex.schema.dropTable('asset_prices'),
     knex.schema.dropTable('assets')
   ])
 };
