@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 describe('Server File', () => {
 
   describe('/api/v1/assets', () => {
-    
+    let BitcoinID;
     beforeEach(done => {
       app.locals.assets = assets;
       done();
@@ -19,6 +19,7 @@ describe('Server File', () => {
       chai.request(app)
         .get('/api/v1/assets')
         .end((error, response) => {
+          BitcoinID = response.body[0].id
           expect(response).to.have.status(200);
           done()
         })
@@ -33,6 +34,17 @@ describe('Server File', () => {
           done()
         })
     })
+
+    it('Returns prices for specific asset', (done) => {
+      chai.request(app)
+        .get(`/api/v1/assets/${BitcoinID}/asset_prices`)
+        .end((error, response) => {
+          response.body.should.be.a('array');
+          expect(response.body.length).to.equal(382);
+          done()
+        })
+    })
+
 
    
 
