@@ -1,11 +1,13 @@
 const express = require('express');
 const app = express();
-const assets = require('./assets');
-
+const assets = require('./seedData/seedData.js');
 const bodyParser = require('body-parser');
 
-app.use(bodyParser.json());
+const environment = process.env.NODE_ENV || 'development';
+const config = require('./knexfile')[environment];
+const database = require('knex')(config);
 
+app.use(bodyParser.json());
 
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'CryptAnon';
@@ -16,7 +18,13 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/v1/assets', (request, response) => {
-  response.status(200).json(app.locals.assets);
+  database('assets').select()
+    .then(assets => {
+      response.status(200).json(assets);
+    })
+    .catch(error => {
+      response.status(500).json( { error: error.message } )
+    })
 })
 
 app.post('/api/v1/assets', (request, response) => {
