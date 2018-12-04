@@ -4,7 +4,8 @@
   "description": "Mod 4 BYOB project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/aweissman11/cryptanon-server/issues"
   },
-  "homepage": "https://github.com/aweissman11/cryptanon-server#readme"
+  "homepage": "https://github.com/aweissman11/cryptanon-server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "knex": "^0.15.2",
+    "pg": "^7.7.1"
+  }
 }
