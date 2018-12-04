@@ -13,7 +13,7 @@ const createAssets = (knex, asset) => {
         return createPriceHistory(knex, {
           price: pricePoint.price,
           pricing_date: pricePoint.timestamp,
-          asset_id: pricePoint.asset_id
+          asset_id: assetIds[0]
         })
       })
       return Promise.all(historicalPricePromises)
