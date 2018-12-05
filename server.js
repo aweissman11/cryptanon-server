@@ -60,29 +60,30 @@ app.get('/api/v1/assets/:asset_ID/asset_prices', (request, response) => {
 
 
 
-// app.post('/api/v1/assets', (request, response) => {
-//   const asset = request.body;
+app.post('/api/v1/users', (request, response) => {
+  const user = request.body;
 
-//   let missingProperties = [];
+  let missingProperties = [];
 
-//   for (let requiredProperty of ['name', 'ticker', 'type', 'icon_url', 'website_url']) {
-//     if(asset[requiredProperty] === undefined) {
-//       missingProperties = [...missingProperties, requiredProperty]
-//     }
-//   }
+  for (let requiredProperty of ['username', 'password']) {
+    if(user[requiredProperty] === undefined) {
+      missingProperties = [...missingProperties, requiredProperty]
+    }
+  }
 
-//   if (missingProperties.length) {
-//     response
-//       .status(422)
-//       .send({ error: `missing required param/s: ${missingProperties}`})
-//   }
+  if (missingProperties.length) {
+    response
+      .status(422)
+      .send({ error: `missing required param/s: ${missingProperties}`})
+  }
 
+  database('users').insert(user, 'id')
+    .then(userIds => {
+      response.status(201).json({ username: user.username, id: userIds[0]})
+    })
+    .catch(error => ({ error: error.message }))
 
-//   app.locals.assets = [...app.locals.assets, asset];
-//   response.status(201).json(asset)
-//   // sometimes better to just send back a message
-//   // response.status(201).json({ message: `${student.name} added to DB`})
-// })
+})
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on localhost:${app.get('port')}.`);
