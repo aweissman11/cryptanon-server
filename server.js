@@ -3,6 +3,8 @@ const app = express();
 const assets = require('./seedData/seedData.js');
 const bodyParser = require('body-parser');
 
+process.env.NODE_ENV = 'development';
+
 const environment = process.env.NODE_ENV || 'development';
 const config = require('./knexfile')[environment];
 const database = require('knex')(config);
