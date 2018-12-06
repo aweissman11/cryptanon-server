@@ -83,7 +83,7 @@ describe('Server File', () => {
       .get(`/api/v1/assets/${BitcoinID}/asset_prices`)
       .end((error, response) => {
         response.body.should.be.a('array');
-        expect(response.body.length).to.equal(364);
+        expect(response.body.length).to.equal(358);
         done()
       })
     })
@@ -172,7 +172,7 @@ describe('Server File', () => {
           expect(response).to.have.status(201)
           newUserId = response.body.id
           expect(Object.keys(response.body)).to.deep.equal(['username', 'id'])
-          done()
+          // done()
         })
 
       chai.request(app)
