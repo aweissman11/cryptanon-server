@@ -3,8 +3,6 @@ const app = express();
 const assets = require('./seedData/seedData.js');
 const bodyParser = require('body-parser');
 
-process.env.NODE_ENV = 'development';
-
 const environment = process.env.NODE_ENV || 'development';
 const config = require('./knexfile')[environment];
 const database = require('knex')(config);
@@ -99,8 +97,8 @@ app.post('/api/v1/users', (request, response) => {
 
 app.delete('/api/v1/users/:id', (request, response) => {
   database('users').where('id', request.params.id).del()
-    .then(palette => {
-      if (palette > 0) {
+    .then(user => {
+      if (user > 0) {
         response.status(204).json({ message: `user ${request.params.id} deleted`});
       } else {
         response.status(404).json({
