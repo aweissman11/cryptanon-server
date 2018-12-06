@@ -83,7 +83,7 @@ describe('Server File', () => {
       .get(`/api/v1/assets/${BitcoinID}/asset_prices`)
       .end((error, response) => {
         response.body.should.be.a('array');
-        expect(response.body.length).to.equal(364);
+        expect(response.body.length).to.equal(358);
         done()
       })
     })
@@ -93,7 +93,7 @@ describe('Server File', () => {
         .get(`/api/v1/assets/${BitcoinID}/asset_prices?uniDate=1515110400000`)
         .end((error, response) => {
           response.body.should.be.a('array');
-          expect(response.body.length).to.equal(30);
+          expect(response.body.length).to.equal(27);
           done()
         });
     });
