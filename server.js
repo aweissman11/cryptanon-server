@@ -194,8 +194,27 @@ app.post('/api/v1/favorites', (request, response) => {
 
 })
 
+app.delete('/api/v1/favorites/:favorite_id', (request, response) => {
+  database('favorites').where('id', request.params.favorite_id).del()
+    .then(favorite => {
+      if (favorite > 0) {
+        response.status(204).json({ message: `favorite ${request.params.id} deleted`});
+      } else {
+        response.status(404).json({
+          error: `No favorite with id ${request.params.id} exists`
+        });
+      }
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
+})
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on localhost:${app.get('port')}.`);
 });
 
-module.exports = app;
+module.exports = {
+  app,
+  database
+};
