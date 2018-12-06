@@ -1,9 +1,12 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../server.js');
+const { app } = require('../server.js');
 const expect = require('chai').expect;
-const config = require('../knexfile')['test']
-const database = require('knex')(config)
+// const config = require('../knexfile')[process.env.NODE_ENV]
+
+const environment = process.env.NODE_ENV || 'test';
+const configuration = require('../knexfile')[environment];
+const database = require('knex')(configuration);
 
 const should = chai.should();
 chai.use(chaiHttp);
@@ -12,10 +15,34 @@ chai.use(chaiHttp);
 let BitcoinID;
 
 describe('Server File', () => {
-  
+  beforeEach((done) => {
+    database.migrate.rollback()
+    .then(() => {
+      database.migrate.latest()
+      .then(() => {
+        database.seed.run()
+        .then(() => {
+          done();
+        })
+      });
+    });
+  });
+ 
  
   describe('/api/v1/assets', () => {
-    
+    beforeEach((done) => {
+      database.migrate.rollback()
+      .then(() => {
+        database.migrate.latest()
+        .then(() => {
+          database.seed.run()
+          .then(() => {
+            done();
+          })
+        });
+      });
+    });
+ 
     it('Return a 200 status', (done) => {
       chai.request(app)
       .get('/api/v1/assets')
@@ -38,6 +65,18 @@ describe('Server File', () => {
   })
   
   describe('/api/v1/assets/:asset_ID/asset_prices', () => {
+    beforeEach((done) => {
+      database.migrate.rollback()
+      .then(() => {
+        database.migrate.latest()
+        .then(() => {
+          database.seed.run()
+          .then(() => {
+            done();
+          })
+        });
+      });
+    });
 
     it('Returns prices for specific asset', (done) => {
       chai.request(app)
@@ -48,10 +87,33 @@ describe('Server File', () => {
         done()
       })
     })
+
+    it('Returns a specific number of days of pricing data for specific asset', (done) => {
+      chai.request(app)
+        .get(`/api/v1/assets/${BitcoinID}/asset_prices?uniDate=1515110400000`)
+        .end((error, response) => {
+          response.body.should.be.a('array');
+          expect(response.body.length).to.equal(30);
+          done()
+        });
+    });
   })
 
   describe('/api/v1/users', () => {
     let newUserId;
+    
+    beforeEach((done) => {
+      database.migrate.rollback()
+      .then(() => {
+        database.migrate.latest()
+        .then(() => {
+          database.seed.run()
+          .then(() => {
+            done();
+          })
+        });
+      });
+    });
 
     it('should add a user', (done) => {
       const newUser = {
@@ -81,6 +143,16 @@ describe('Server File', () => {
     })
 
     it('should change a specific user password' , (done) => {
+      chai.request(app)
+        .patch(`/api/v1/users/password/${newUserId}`)
+        .send( { password: 'hello111' } )
+        .end((error, response) => {
+          expect(response).to.have.status(204)
+          done()
+        })
+    })
+
+    it('should add a favorite to a user' , (done) => {
       chai.request(app)
         .patch(`/api/v1/users/password/${newUserId}`)
         .send( { password: 'hello111' } )
