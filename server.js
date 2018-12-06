@@ -19,9 +19,7 @@ app.locals.assets = assets;
 // 2 POST endpoints
   // post user
   // add user favorite
-// 2 PUT or PATCH endpoints
-  // PUT || PATCH username 
-  // PUT || PATCH password
+
 // 2 DELETE endpoints
   // delete user
   // delete favorite
@@ -98,15 +96,18 @@ app.post('/api/v1/users', (request, response) => {
 app.patch('/api/v1/users/:id', (request, response) => {
   const { id } = request.params;
   const { username } = request.body
+ 
 
-  database('users').where('id', id).update('name', username)
-    .then(userIds => {
-      response.status(204).json({ id: userIds[0] })
+  database('users').where('id', id).update('username', username)
+    .then(userIds => {   
+      response.status(204).json({ id: userIds })
     })
     .catch(error => {
       response.status(500).json({ error: error.message }) 
     })
 });
+
+
 
 
 app.delete('/api/v1/users/:id', (request, response) => {

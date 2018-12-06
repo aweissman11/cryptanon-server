@@ -70,6 +70,18 @@ describe('Server File', () => {
         })
     })
 
+    it('should change a specific username' , (done) => {
+      chai.request(app)
+        .patch(`/api/v1/users/${newUserId}`)
+        .send( { username: 'Aaron' } )
+        .end((error, response) => {
+          expect(response).to.have.status(204)
+          done()
+        })
+    })
+
+    
+
     it('should get all the users', (done) => {
       chai.request(app)
         .get('/api/v1/users')
@@ -77,7 +89,7 @@ describe('Server File', () => {
           expect(response).to.have.status(200)
           done()
         })
-      })
+    })
       
     it('should delete a user', (done) => {
       chai.request(app)
