@@ -58,7 +58,7 @@ describe('Server File', () => {
       .get('/api/v1/assets')
       .end((error, response) => {
         response.body.should.be.a('array');
-        expect(response.body.length).to.equal(50)
+        expect(response.body.length).to.equal(2)
         done()
       })
     })
@@ -101,19 +101,6 @@ describe('Server File', () => {
 
   describe('/api/v1/users', () => {
     let newUserId;
-    
-    beforeEach((done) => {
-      database.migrate.rollback()
-      .then(() => {
-        database.migrate.latest()
-        .then(() => {
-          database.seed.run()
-          .then(() => {
-            done();
-          })
-        });
-      });
-    });
 
     it('should add a user', (done) => {
       const newUser = {
@@ -172,6 +159,22 @@ describe('Server File', () => {
     })
       
     it('should delete a user', (done) => {
+
+      const newUser = {
+        username: 'gmoney',
+        password: 'hello'
+      }
+
+      chai.request(app)
+        .post('/api/v1/users')
+        .send(newUser)
+        .end((error, response) => {
+          expect(response).to.have.status(201)
+          newUserId = response.body.id
+          expect(Object.keys(response.body)).to.deep.equal(['username', 'id'])
+          done()
+        })
+
       chai.request(app)
         .delete(`/api/v1/users/${newUserId}`)
         .end((error, response) => {
