@@ -44,7 +44,7 @@ describe('Server File', () => {
       .get(`/api/v1/assets/${BitcoinID}/asset_prices`)
       .end((error, response) => {
         response.body.should.be.a('array');
-        expect(response.body.length).to.equal(382);
+        expect(response.body.length).to.equal(364);
         done()
       })
     })

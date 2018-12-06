@@ -1,4 +1,4 @@
-let assets = require('../../../seedData/seedData.json');
+let assets = require('../../../seedData/seedData2.json');
 
 const createAssets = (knex, asset) => {
   return knex('assets').insert({
@@ -16,7 +16,20 @@ const createAssets = (knex, asset) => {
           asset_id: assetIds[0]
         })
       })
-      return Promise.all(historicalPricePromises)
+      let articlePromises = asset.articles.map(article => {
+        return createArticleHistory(knex, {
+          source: article.source.name,
+          author: article.author,
+          title: article.title,
+          url: article.url,
+          urlToImage: article.urlToImage,
+          publishedAt: article.publishedAt,
+          content: article.content,
+          asset_id: assetIds[0]
+        })
+      })
+      let allPromises = [...historicalPricePromises, ...articlePromises]
+      return Promise.all(allPromises)
     })
 }
 
@@ -24,9 +37,12 @@ const createPriceHistory = (knex, pricePoint) => {
   return knex('asset_prices').insert(pricePoint);
 }
 
+const createArticleHistory = (knex, article) => {
+  return knex('asset_articles').insert(article);
+}
+
 
 exports.seed = function(knex, Promise) {
-  // Deletes ALL existing entries
   return knex('asset_prices').del()
     .then(() => knex('assets').del())
     .then(function () {
