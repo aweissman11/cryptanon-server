@@ -33,6 +33,23 @@ exports.up = function(knex, Promise) {
       table.timestamps(true, true);
     }),
 
+    knex.schema.createTable('asset_articles', function(table) {
+      table.increments('id').primary();
+      table.text('source');
+      table.text('author');
+      table.text('title');
+      table.text('url');
+      table.text('urlToImage');
+      table.text('publishedAt');
+      table.text('content');
+      table.integer('asset_id').unsigned();
+      table.foreign('asset_id')
+        .references('assets.id');
+
+
+      table.timestamps(true, true);
+    }),
+
     knex.schema.createTable('asset_prices', function(table) {
       table.increments('id').primary();
       table.string('price');
@@ -52,6 +69,7 @@ exports.down = function(knex, Promise) {
     knex.schema.dropTable('favorites'),
     knex.schema.dropTable('users'),
     knex.schema.dropTable('asset_prices'),
+    knex.schema.dropTable('asset_articles'),
     knex.schema.dropTable('assets')
   ])
 };

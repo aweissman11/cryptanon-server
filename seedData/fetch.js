@@ -1,29 +1,43 @@
-const url = 'https://api.coinranking.com/v1/public/coins'
+// const url = 'https://api.coinranking.com/v1/public/coins'
 
-const fetchHistorical = async() => {
-  const response = await fetch(url)
-  const data = await response.json()
-  const historical = await getHistorical(data.data.coins)
+// const fetchHistorical = async() => {
+//   const response = await fetch(url)
+//   const data = await response.json()
+//   const historical = await getHistorical(data.data.coins)
+//   const articles = await getArticles(historical)
 
-  console.log(JSON.stringify(historical, null, 2))
-}
+//   console.log(JSON.stringify(articles, null, 2))
+// }
 
-const getHistorical = async(coins) => {
-  const unresolvedPromises = coins.map(async coin => {
-    const result = await fetch(`https://api.coinranking.com/v1/public/coin/${coin.id}/history/1y`)
-    const data = await result.json()
-    return {
-      name: coin.name,
-      ticker: coin.symbol,
-      type: 'cryptocurrency',
-      icon_url: coin.iconUrl,
-      website_url: coin.websiteUrl,
-      price_history: data.data.history
-    }
-  })
-  return Promise.all(unresolvedPromises)
-}
+// const getHistorical = async coins => {
+//   const unresolvedPromises = coins.map(async coin => {
+//     const result = await fetch(`https://api.coinranking.com/v1/public/coin/${coin.id}/history/1y`)
+//     const data = await result.json()
+//     return {
+//       name: coin.name,
+//       ticker: coin.symbol,
+//       type: 'cryptocurrency',
+//       icon_url: coin.iconUrl,
+//       website_url: coin.websiteUrl,
+//       price_history: data.data.history
+//     }
+//   })
+//   return Promise.all(unresolvedPromises)
+// }
 
+
+// const getArticles = async coins => {
+//   const unresolvedPromises = coins.map(async coin => {
+//     const URLTopic = coin.name.replace(' ', '+')
+//     const result = await fetch(`https://newsapi.org/v2/everything?q=${URLTopic}&sortBy=popularity&pageSize=10&apiKey=077c0a2815b645a084fbccc8aec0b2e8`)
+//     const data = await result.json()
+//     return {...coin, articles: data.articles}
+//   })
+//   return Promise.all(unresolvedPromises)
+  
+// }
+
+// https://newsapi.org/v2/everything?q=bitcoin&sortBy=popularity&pageSize=10&apiKey=077c0a2815b645a084fbccc8aec0b2e8`
 // https://api.coinranking.com/v1/public/coin/1335/history/1y
 
 
