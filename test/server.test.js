@@ -1,36 +1,20 @@
-// process.env.NODE_ENV = 'test'
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const app = require('../server.js');
+const expect = require('chai').expect;
+const config = require('../knexfile')['test']
+const database = require('knex')(config)
 
-// const chai = require('chai');
-// const chaiHttp = require('chai-http');
-// const app = require('../server.js');
-// const assets = require('../seedData/seedData.js');
-// const expect = require('chai').expect;
-// const config = require('../knexfile')['test']
-// const database = require('knex')(config)
-
-// const should = chai.should();
-// chai.use(chaiHttp);
+const should = chai.should();
+chai.use(chaiHttp);
 
 
 let BitcoinID;
 
 describe('Server File', () => {
-
-  beforeEach(done => {
-    database.migrate.rollback().then(() => {
-      database.migrate.latest().then(() => {
-        return database.seed.run().then(function() {
-          done();
-        });
-      });
-    });
-  });
-
+  
+ 
   describe('/api/v1/assets', () => {
-    // beforeEach(done => {
-    //   app.locals.assets = assets;
-    //   done();
-    // })
     
     it('Return a 200 status', (done) => {
       chai.request(app)
@@ -86,6 +70,26 @@ describe('Server File', () => {
         })
     })
 
+    it('should change a specific user username' , (done) => {
+      chai.request(app)
+        .patch(`/api/v1/users/username/${newUserId}`)
+        .send( { username: 'Aaron' } )
+        .end((error, response) => {
+          expect(response).to.have.status(204)
+          done()
+        })
+    })
+
+    it('should change a specific user password' , (done) => {
+      chai.request(app)
+        .patch(`/api/v1/users/password/${newUserId}`)
+        .send( { password: 'hello111' } )
+        .end((error, response) => {
+          expect(response).to.have.status(204)
+          done()
+        })
+    })
+
     it('should get all the users', (done) => {
       chai.request(app)
         .get('/api/v1/users')
@@ -93,7 +97,7 @@ describe('Server File', () => {
           expect(response).to.have.status(200)
           done()
         })
-      })
+    })
       
     it('should delete a user', (done) => {
       chai.request(app)

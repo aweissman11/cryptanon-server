@@ -3,14 +3,11 @@ const app = express();
 const assets = require('./seedData/seedData.js');
 const bodyParser = require('body-parser');
 
-process.env.NODE_ENV = 'development';
-
 const environment = process.env.NODE_ENV || 'development';
 const config = require('./knexfile')[environment];
 const database = require('knex')(config);
 
 app.use(bodyParser.json());
-
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'CryptAnon';
 app.locals.assets = assets;
@@ -18,14 +15,9 @@ app.locals.assets = assets;
 
 // 1 GET endpoints for all of one resource (i.e. ‘/api/v1/merchants’)
 // 1 GET endpoints for a specific resource (i.e. ‘/api/v1/merchants/:id’)
-// 2 POST endpoints
-  // post user
+// 1 POST endpoints
   // add user favorite
-// 2 PUT or PATCH endpoints
-  // PUT || PATCH username 
-  // PUT || PATCH password
-// 2 DELETE endpoints
-  // delete user
+// 1 DELETE endpoints
   // delete favorite
 
 app.get('/', (request, response) => {
@@ -62,7 +54,6 @@ app.get('/api/v1/assets/:asset_ID/asset_prices', (request, response) => {
 
 
 app.get('/api/v1/users', (request, response) => {
-  // const users = app.locals.users;
   database('users').select()
   .then(users => {
     response.status(200).json(users)
@@ -74,7 +65,6 @@ app.get('/api/v1/users', (request, response) => {
 
 app.post('/api/v1/users', (request, response) => {
   const user = request.body;
-
   let missingProperties = [];
 
   for (let requiredProperty of ['username', 'password']) {
@@ -97,10 +87,37 @@ app.post('/api/v1/users', (request, response) => {
 
 })
 
+app.patch('/api/v1/users/username/:id', (request, response) => {
+  const { id } = request.params;
+  const { username } = request.body
+ 
+  database('users').where('id', id).update('username', username)
+    .then(userIds => {   
+      response.status(204).json({ id: userIds[0] })
+    })
+    .catch(error => {
+      response.status(500).json({ error: error.message }) 
+    })
+});
+
+app.patch('/api/v1/users/password/:id', (request, response) => {
+  const { id } = request.params;
+  const { password } = request.body
+
+  database('users').where('id', id).update('username', password)
+    .then(userIds => {   
+      response.status(204).json({ id: userIds[0] })
+    })
+    .catch(error => {
+      response.status(500).json({ error: error.message }) 
+    })
+});
+
+
 app.delete('/api/v1/users/:id', (request, response) => {
   database('users').where('id', request.params.id).del()
-    .then(palette => {
-      if (palette > 0) {
+    .then(user => {
+      if (user > 0) {
         response.status(204).json({ message: `user ${request.params.id} deleted`});
       } else {
         response.status(404).json({
