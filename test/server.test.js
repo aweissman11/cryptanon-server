@@ -51,6 +51,8 @@ describe('Server File', () => {
   })
 
   describe('/api/v1/users', () => {
+    let newUserId;
+
     it('should add a user', (done) => {
       const newUser = {
         username: 'gmoney',
@@ -62,9 +64,30 @@ describe('Server File', () => {
         .send(newUser)
         .end((error, response) => {
           expect(response).to.have.status(201)
+          newUserId = response.body.id
           expect(Object.keys(response.body)).to.deep.equal(['username', 'id'])
           done()
         })
+    })
+
+    it('should get all the users', (done) => {
+      chai.request(app)
+        .get('/api/v1/users')
+        .end((error, response) => {
+          expect(response).to.have.status(200)
+          done()
+        })
+      })
+      
+      it('should delete a user', (done) => {
+        console.log('newuserid:', newUserId)
+        chai.request(app)
+          .delete(`/api/v1/users/${newUserId}`)
+          .end((error, response) => {
+            expect(response.status).to.equal(204)
+            done()
+          })
+        
     })
 
   })
