@@ -70,10 +70,20 @@ describe('Server File', () => {
         })
     })
 
-    it('should change a specific username' , (done) => {
+    it('should change a specific user username' , (done) => {
       chai.request(app)
-        .patch(`/api/v1/users/${newUserId}`)
+        .patch(`/api/v1/users/username/${newUserId}`)
         .send( { username: 'Aaron' } )
+        .end((error, response) => {
+          expect(response).to.have.status(204)
+          done()
+        })
+    })
+
+    it('should change a specific user password' , (done) => {
+      chai.request(app)
+        .patch(`/api/v1/users/password/${newUserId}`)
+        .send( { password: 'hello111' } )
         .end((error, response) => {
           expect(response).to.have.status(204)
           done()
