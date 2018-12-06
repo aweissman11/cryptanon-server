@@ -8,13 +8,34 @@ const database = require('knex')(config)
 const should = chai.should();
 chai.use(chaiHttp);
 
+// database.seed.run()
 
 let BitcoinID;
 
 describe('Server File', () => {
   
+  // beforeEach((done) => {
+  //   database.migrate.rollback()
+  //   .then(() => {
+  //     database.migrate.latest()
+  //     .then(() => {
+  //       database.seed.run()
+  //       .then(() => {
+  //         done();
+  //       })
+  //     });
+  //   });
+  // });
+
+  // afterEach((done) => {
+  //   database.migrate.rollback()
+  //   .then(() => {
+  //     done();
+  //   });
+  // });
+
  
-  describe('/api/v1/assets', () => {
+  // describe('/api/v1/assets', () => {
     
     it('Return a 200 status', (done) => {
       chai.request(app)
@@ -35,9 +56,9 @@ describe('Server File', () => {
         done()
       })
     })
-  })
+  // })
   
-  describe('/api/v1/assets/:asset_ID/asset_prices', () => {
+  // describe('/api/v1/assets/:asset_ID/asset_prices', () => {
 
     it('Returns prices for specific asset', (done) => {
       chai.request(app)
@@ -48,9 +69,9 @@ describe('Server File', () => {
         done()
       })
     })
-  })
+  // })
 
-  describe('/api/v1/users', () => {
+  // describe('/api/v1/users', () => {
     let newUserId;
 
     it('should add a user', (done) => {
@@ -108,4 +129,3 @@ describe('Server File', () => {
         })
     })
   })
-})
