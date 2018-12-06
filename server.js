@@ -15,6 +15,7 @@ app.locals.assets = assets;
 
 // 1 GET endpoints for all of one resource (i.e. ‘/api/v1/merchants’)
 // 1 GET endpoints for a specific resource (i.e. ‘/api/v1/merchants/:id’)
+
 // 1 POST endpoints
 
   // add user favorite
