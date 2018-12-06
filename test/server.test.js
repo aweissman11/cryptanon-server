@@ -1,7 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../server.js');
-const assets = require('../seedData/seedData.js');
 const expect = require('chai').expect;
 const config = require('../knexfile')['test']
 const database = require('knex')(config)
