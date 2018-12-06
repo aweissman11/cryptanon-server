@@ -8,7 +8,6 @@ const config = require('./knexfile')[environment];
 const database = require('knex')(config);
 
 app.use(bodyParser.json());
-
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'CryptAnon';
 app.locals.assets = assets;
@@ -18,9 +17,7 @@ app.locals.assets = assets;
 // 1 GET endpoints for a specific resource (i.e. ‘/api/v1/merchants/:id’)
 // 1 POST endpoints
   // add user favorite
-
 // 1 DELETE endpoints
-
   // delete favorite
 
 app.get('/', (request, response) => {

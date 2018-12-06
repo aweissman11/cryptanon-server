@@ -90,8 +90,6 @@ describe('Server File', () => {
         })
     })
 
-    
-
     it('should get all the users', (done) => {
       chai.request(app)
         .get('/api/v1/users')
