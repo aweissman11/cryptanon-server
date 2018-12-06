@@ -48,6 +48,16 @@ describe('Server File', () => {
         done()
       })
     })
+
+    it('Returns a specific number of days of pricing data for specific asset', (done) => {
+      chai.request(app)
+        .get(`/api/v1/assets/${BitcoinID}/asset_prices?uniDate=1515110400000`)
+        .end((error, response) => {
+          response.body.should.be.a('array');
+          expect(response.body.length).to.equal(30);
+          done()
+        });
+    });
   })
 
   describe('/api/v1/users', () => {

@@ -37,8 +37,10 @@ app.get('/api/v1/assets', (request, response) => {
 
 app.get('/api/v1/assets/:asset_ID/asset_prices', (request, response) => {
   const { asset_ID } = request.params;
+  const { uniDate } = request.query;
 
-  database('asset_prices').where('asset_id', asset_ID).select()
+  if (!uniDate) {
+    database('asset_prices').where('asset_id', asset_ID).select()
     .then(prices => {
       if (prices.length) {
         response.status(200).json(prices);
@@ -51,7 +53,26 @@ app.get('/api/v1/assets/:asset_ID/asset_prices', (request, response) => {
     .catch(error => {
       response.status(500).json( { error } )
     })
-})
+  } else {
+    database.select()
+    .from('asset_prices')
+    .where('asset_id', asset_ID)
+    .andWhere('pricing_date', '<=', uniDate)
+      .select()
+      .then(prices => {
+        if (prices.length){
+          return response.status(200).json(prices);
+        }
+        return response.status(404).json({ message: `could not find any prices for ${asset_ID} in the range of ${days}`});
+      })
+      .catch((error) => {
+        return response.status(500).json({ error });
+      });
+  }
+});
+
+
+
 
 
 app.get('/api/v1/users', (request, response) => {
@@ -129,6 +150,48 @@ app.delete('/api/v1/users/:id', (request, response) => {
     .catch(error => {
       response.status(500).json({ error })
     })
+})
+
+app.get('/api/v1/favorites/:user_ID', (request, response) => {
+  const { user_ID } = request.params;
+
+  database('favorites').where('user_id', user_ID).select()
+    .then(favorites => {
+      if (prices.length) {
+        response.status(200).json(favorites);
+      } else {
+        response.status(404).json( { 
+          error: `could not find any asset prices for asset id: ${asset_ID}`
+        })
+      }
+    })
+    .catch(error => {
+      response.status(500).json( { error } )
+    })
+})
+
+app.post('/api/v1/favorites', (request, response) => {
+  const favorite = request.body;
+  let missingProperties = [];
+
+  for (let requiredProperty of ['user_id', 'asset_id']) {
+    if(favorite[requiredProperty] === undefined) {
+      missingProperties = [...missingProperties, requiredProperty]
+    }
+  }
+
+  if (missingProperties.length) {
+    response
+      .status(422)
+      .send({ error: `missing required param/s: ${missingProperties}`})
+  }
+
+  database('favorites').insert(favorite, 'id')
+    .then(userIds => {
+      response.status(201).json({ asset_id: favorite.asset_id, user_id: favorite.user_id, id: userIds[0]})
+    })
+    .catch(error => ({ error: error.message }))
+
 })
 
 app.listen(app.get('port'), () => {
