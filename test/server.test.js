@@ -1,33 +1,36 @@
-process.env.NODE_ENV = 'test'
+// process.env.NODE_ENV = 'test'
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const app = require('../server.js');
-const assets = require('../seedData/seedData.js');
-const expect = require('chai').expect;
-const config = require('../knexfile')['test']
-const database = require('knex')(config)
+// const chai = require('chai');
+// const chaiHttp = require('chai-http');
+// const app = require('../server.js');
+// const assets = require('../seedData/seedData.js');
+// const expect = require('chai').expect;
+// const config = require('../knexfile')['test']
+// const database = require('knex')(config)
 
-const should = chai.should();
-chai.use(chaiHttp);
+// const should = chai.should();
+// chai.use(chaiHttp);
+
 
 let BitcoinID;
 
 describe('Server File', () => {
 
-  beforeEach((done) => database.migrate.rollback()
-    .then(() => database.migrate.latest())
-    .then(() => {
-      database.seed.run()
-      done()
-      })
-  );
+  beforeEach(done => {
+    database.migrate.rollback().then(() => {
+      database.migrate.latest().then(() => {
+        return database.seed.run().then(function() {
+          done();
+        });
+      });
+    });
+  });
 
   describe('/api/v1/assets', () => {
-    beforeEach(done => {
-      app.locals.assets = assets;
-      done();
-    })
+    // beforeEach(done => {
+    //   app.locals.assets = assets;
+    //   done();
+    // })
     
     it('Return a 200 status', (done) => {
       chai.request(app)
@@ -92,18 +95,13 @@ describe('Server File', () => {
         })
       })
       
-      it('should delete a user', (done) => {
-        chai.request(app)
-          .delete(`/api/v1/users/${newUserId}`)
-          .end((error, response) => {
-            expect(response.status).to.equal(204)
-            done()
-          })
-        
+    it('should delete a user', (done) => {
+      chai.request(app)
+        .delete(`/api/v1/users/${newUserId}`)
+        .end((error, response) => {
+          expect(response.status).to.equal(204)
+          done()
+        })
     })
-
   })
-  
-
-
 })
