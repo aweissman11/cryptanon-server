@@ -3,6 +3,8 @@ const app = express();
 const assets = require('./seedData/seedData.js');
 const bodyParser = require('body-parser');
 
+process.env.NODE_ENV = 'development';
+
 const environment = process.env.NODE_ENV || 'development';
 const config = require('./knexfile')[environment];
 const database = require('knex')(config);
@@ -59,6 +61,16 @@ app.get('/api/v1/assets/:asset_ID/asset_prices', (request, response) => {
 })
 
 
+app.get('/api/v1/users', (request, response) => {
+  // const users = app.locals.users;
+  database('users').select()
+  .then(users => {
+    response.status(200).json(users)
+  })
+  .catch(error => {
+    response.status(500).json({ error: error.message })
+  })
+})
 
 app.post('/api/v1/users', (request, response) => {
   const user = request.body;
@@ -83,6 +95,22 @@ app.post('/api/v1/users', (request, response) => {
     })
     .catch(error => ({ error: error.message }))
 
+})
+
+app.delete('/api/v1/users/:id', (request, response) => {
+  database('users').where('id', request.params.id).del()
+    .then(palette => {
+      if (palette > 0) {
+        response.status(204).json({ message: `user ${request.params.id} deleted`});
+      } else {
+        response.status(404).json({
+          error: `No user with id ${request.params.id} exists`
+        });
+      }
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
 })
 
 app.listen(app.get('port'), () => {

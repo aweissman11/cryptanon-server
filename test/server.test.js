@@ -1,20 +1,36 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const app = require('../server.js');
-const assets = require('../seedData/seedData.js');
-const expect = require('chai').expect;
-const should = chai.should();
-chai.use(chaiHttp);
+// process.env.NODE_ENV = 'test'
+
+// const chai = require('chai');
+// const chaiHttp = require('chai-http');
+// const app = require('../server.js');
+// const assets = require('../seedData/seedData.js');
+// const expect = require('chai').expect;
+// const config = require('../knexfile')['test']
+// const database = require('knex')(config)
+
+// const should = chai.should();
+// chai.use(chaiHttp);
+
 
 let BitcoinID;
 
 describe('Server File', () => {
 
+  beforeEach(done => {
+    database.migrate.rollback().then(() => {
+      database.migrate.latest().then(() => {
+        return database.seed.run().then(function() {
+          done();
+        });
+      });
+    });
+  });
+
   describe('/api/v1/assets', () => {
-    beforeEach(done => {
-      app.locals.assets = assets;
-      done();
-    })
+    // beforeEach(done => {
+    //   app.locals.assets = assets;
+    //   done();
+    // })
     
     it('Return a 200 status', (done) => {
       chai.request(app)
@@ -51,6 +67,8 @@ describe('Server File', () => {
   })
 
   describe('/api/v1/users', () => {
+    let newUserId;
+
     it('should add a user', (done) => {
       const newUser = {
         username: 'gmoney',
@@ -62,13 +80,28 @@ describe('Server File', () => {
         .send(newUser)
         .end((error, response) => {
           expect(response).to.have.status(201)
+          newUserId = response.body.id
           expect(Object.keys(response.body)).to.deep.equal(['username', 'id'])
           done()
         })
     })
 
+    it('should get all the users', (done) => {
+      chai.request(app)
+        .get('/api/v1/users')
+        .end((error, response) => {
+          expect(response).to.have.status(200)
+          done()
+        })
+      })
+      
+    it('should delete a user', (done) => {
+      chai.request(app)
+        .delete(`/api/v1/users/${newUserId}`)
+        .end((error, response) => {
+          expect(response.status).to.equal(204)
+          done()
+        })
+    })
   })
-  
-
-
 })
