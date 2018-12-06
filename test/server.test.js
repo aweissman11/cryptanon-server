@@ -33,9 +33,6 @@ describe('Server File', () => {
   //     done();
   //   });
   // });
-
- 
-  
   // describe('/api/v1/assets', () => {
     
     it('Return a 200 status', (done) => {
