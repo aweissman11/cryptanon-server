@@ -1,9 +1,15 @@
 language: node_js
 node_js:
-  - "node"
+- node
 services:
-  - postgresql
+- postgresql
 before_script:
-  - psql -c 'CREATE DATABASE cryptanon_test;' -U postgres
+- psql -c 'CREATE DATABASE cryptanon_test;' -U postgres
 notifications:
   email: false
+deploy:
+  provider: heroku
+  api_key:
+    secure: AN/Ltgo3wt7seXfR9eh2Hx4c4kohbGzIkiPMC5WaiyuBytLMvOTuU367yGU+ly6DaThTn6DwlUz3ui6AXcgquOyXTCMMEKGw7dPecfWQYzkqTLxr1F2JVpx5IHLl3OFTXI9QsU1JfzBZnOMGtpSVH/mPlkg5ef5ocImgb24rxbXR7gtLldT5GtiPFJUqKE0M8DuSQPuUjV+zNrnyK1Yo9yQzDIKKI7J3Yh+ElAQEdRBkCYPgSHyFV20IGjRclSjdWfc1fSpitZlTOW6trljiNvkBFW4ZjuTt7+dCCvYY4zL0pPkzoHDmZ6MHgUPyCp4qZl29SFPR1UAdCjykkH26L9u73WoxYWkpL6kvwbI4R3PkjgEO+flCP55IV6w8LdVGDWkcwIniRYWwzACMm6AW3VYrlXsptYwZfNH3hJMv1ueW3jN02QFxRZHQznojVFBy61w8jdBxxyTRTRlIrSgXAfAI842GjVKSHQ/fVtq2N72sdZlXXtP9AsdqeGAdYLXlDe0f1s+dHw90fAmus+zmoXxLM94AeHbxKBQaE9o40ekiY4EHW69G/rGXCgN/5u31UQsGHSVeHBPGkxm5llSAFrWPte/QX+G76gwnAQSii1Dq7hcyBRoLYADFkbeNMHH+hRzxWSwhE0TGnxcO0vB7WklHLcpupES0l24pvQeP6RU=
+  app: cryptanon-server
+  skip_cleanup: true
