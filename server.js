@@ -90,7 +90,7 @@ app.get('/api/v1/assets/:asset_ID/articles', (request, response) => {
     .catch(error => {
       response.status(500).json( { error } )
     })
-}
+})
 
 app.get('/api/v1/users', (request, response) => {
   database('users').select()
