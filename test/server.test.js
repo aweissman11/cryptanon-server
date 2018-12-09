@@ -106,7 +106,7 @@ describe('Server File', () => {
       })
     })
 
-     it('Returns prices for specific asset', (done) => {
+    it('Returns prices for specific asset', (done) => {
       chai.request(app)
       .get(`/api/v1/assets/${BitcoinID}/asset_prices`)
       .end((error, response) => {
@@ -127,7 +127,7 @@ describe('Server File', () => {
 
     it('Returns articles for specific asset', (done) => {
       chai.request(app)
-      .get(`/api/v1/assets/${BitcoinID}/asset_articles`)
+      .get(`/api/v1/assets/${BitcoinID}/articles`)
       .end((error, response) => {
         response.body.should.be.a('array');
         expect(response.body.length).to.be.greaterThan(5);
