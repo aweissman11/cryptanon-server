@@ -74,6 +74,24 @@ app.get('/api/v1/assets/:asset_ID/asset_prices', (request, response) => {
   }
 });
 
+app.get('/api/v1/assets/:asset_ID/articles', (request, response) => {
+  const { asset_ID } = request.params;
+
+  database('asset_articles').where('asset_id', asset_ID).select()
+    .then(prices => {
+      if (prices.length) {
+        response.status(200).json(prices);
+      } else {
+        response.status(404).json( { 
+          error: `could not find any articles for asset id: ${asset_ID}`
+        })
+      }
+    })
+    .catch(error => {
+      response.status(500).json( { error } )
+    })
+})
+
 app.get('/api/v1/users', (request, response) => {
   database('users').select()
   .then(users => {

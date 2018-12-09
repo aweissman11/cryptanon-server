@@ -106,6 +106,44 @@ describe('Server File', () => {
       })
     })
 
+    it('Returns prices for specific asset', (done) => {
+      chai.request(app)
+      .get(`/api/v1/assets/${BitcoinID}/asset_prices`)
+      .end((error, response) => {
+        response.body.should.be.a('array');
+        expect(response.body.length).to.be.greaterThan(350);
+        done()
+      })
+    })
+
+    it('Returns an error if the asset doesnt exist', (done) => {
+      chai.request(app)
+      .get(`/api/v1/assets/0000/asset_prices`)
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        done()
+      })
+    })
+
+    it('Returns articles for specific asset', (done) => {
+      chai.request(app)
+      .get(`/api/v1/assets/${BitcoinID}/articles`)
+      .end((error, response) => {
+        response.body.should.be.a('array');
+        expect(response.body.length).to.be.greaterThan(5);
+        done()
+      })
+    })
+
+    it('Returns an error if the asset doesnt exist', (done) => {
+      chai.request(app)
+      .get(`/api/v1/assets/0000/asset_prices`)
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        done()
+      })
+    })
+
     it('Returns the full list of asset prices if a date is not entered', (done) => {
       chai.request(app)
       .get(`/api/v1/assets/${BitcoinID}/asset_prices`)
