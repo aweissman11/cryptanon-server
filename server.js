@@ -36,6 +36,8 @@ app.get('/api/v1/assets', (request, response) => {
     })
 })
 
+
+// add query to end of url???
 app.get('/api/v1/assets/:asset_ID/asset_prices', (request, response) => {
   const { asset_ID } = request.params;
   const { uniDate } = request.query;
@@ -72,10 +74,6 @@ app.get('/api/v1/assets/:asset_ID/asset_prices', (request, response) => {
   }
 });
 
-
-
-
-
 app.get('/api/v1/users', (request, response) => {
   database('users').select()
   .then(users => {
@@ -100,6 +98,7 @@ app.post('/api/v1/users', (request, response) => {
     response
       .status(422)
       .send({ error: `missing required param/s: ${missingProperties}`})
+      return;
   }
 
   database('users').insert(user, 'id')
@@ -112,11 +111,26 @@ app.post('/api/v1/users', (request, response) => {
 
 app.patch('/api/v1/users/username/:id', (request, response) => {
   const { id } = request.params;
-  const { username } = request.body
- 
-  database('users').where('id', id).update('username', username)
+  const user = request.body
+
+  let missingProperties = [];
+
+  for (let requiredProperty of ['username']) {
+    if(user[requiredProperty] === undefined) {
+      missingProperties = [...missingProperties, requiredProperty]
+    }
+  }
+
+  if (missingProperties.length) {
+    response
+      .status(422)
+      .send({ error: `missing required param/s: ${missingProperties}`})
+      return;
+  }
+
+  database('users').where('id', id).update('username', user.username)
     .then(userIds => {   
-      response.status(204).json({ id: userIds[0] })
+      response.status(204).json({ userId: userIds[0] })
     })
     .catch(error => {
       response.status(500).json({ error: error.message }) 
@@ -125,9 +139,25 @@ app.patch('/api/v1/users/username/:id', (request, response) => {
 
 app.patch('/api/v1/users/password/:id', (request, response) => {
   const { id } = request.params;
-  const { password } = request.body
+  const user = request.body
 
-  database('users').where('id', id).update('username', password)
+
+  let missingProperties = [];
+
+  for (let requiredProperty of ['password']) {
+    if(user[requiredProperty] === undefined) {
+      missingProperties = [...missingProperties, requiredProperty]
+    }
+  }
+
+  if (missingProperties.length) {
+    response
+      .status(422)
+      .send({ error: `missing required param/s: ${missingProperties}`})
+      return;
+  }
+
+  database('users').where('id', id).update('username', user.password)
     .then(userIds => {   
       response.status(204).json({ id: userIds[0] })
     })
@@ -158,13 +188,7 @@ app.get('/api/v1/favorites/:user_ID', (request, response) => {
 
   database('favorites').where('user_id', user_ID).select()
     .then(favorites => {
-      if (prices.length) {
-        response.status(200).json(favorites);
-      } else {
-        response.status(404).json( { 
-          error: `could not find any asset prices for asset id: ${asset_ID}`
-        })
-      }
+      response.status(200).json(favorites);
     })
     .catch(error => {
       response.status(500).json( { error } )
@@ -185,6 +209,7 @@ app.post('/api/v1/favorites', (request, response) => {
     response
       .status(422)
       .send({ error: `missing required param/s: ${missingProperties}`})
+      return;
   }
 
   database('favorites').insert(favorite, 'id')
