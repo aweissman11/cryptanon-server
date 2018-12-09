@@ -288,18 +288,21 @@ describe('Server File', () => {
     })
       
     it('should add a favorite to a user' , (done) => {
+      done()
+    })
+    
+    it('should not add a favorite if a param is missing', done => {
+      
+      done()
+    })
+    
+    it('should delete a favorite', done => {
+      done()
       
     })
-
-    it('should not add a favorite if a param is missing', done => {
-
-    })
-
-    it('should delete a favorite', done => {
-
-    })
-
+    
     it('should not delete a favorite if one does not exist', done => {
+      done()
 
     })
   })
