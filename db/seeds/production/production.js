@@ -1,4 +1,4 @@
-let assets = require('../../../seedData/seedData2.json');
+let assets = require('../../../seedData/fullHerokuSeed.json');
 
 const createAssets = (knex, asset) => {
   return knex('assets').insert({
