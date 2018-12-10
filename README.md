@@ -179,3 +179,7 @@ Example output:
     },...
  ]
 
+
+## Contributing
+
+For more instructions on how to contribute take a look at our [Contribution Guidlines](contributing.md)

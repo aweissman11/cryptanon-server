@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-const assets = require('./seedData/seedData.js');
 const bodyParser = require('body-parser');
+const assets = require('./seedData/seedData.js');
 
 const environment = process.env.NODE_ENV || 'development';
 const config = require('./knexfile')[environment];
