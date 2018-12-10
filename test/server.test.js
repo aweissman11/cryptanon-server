@@ -300,47 +300,90 @@ describe('Server File', () => {
         })
       })
       
-      it('should get all of a users favorites', done => {
+      it('should add a favorite and get all of a users favorites', done => {
         const newUser = {
-          username: 'gmoney',
-          password: 'hello'
+          user_id: 2,
+          asset_id: 1
         }
         
         chai.request(app)
-        .post('/api/v1/users')
+        .post('/api/v1/favorites')
         .send(newUser)
         .end((error, response) => {
           expect(response).to.have.status(201)
           newUserId = response.body.id
-          expect(Object.keys(response.body)).to.deep.equal(['username', 'id'])
-          // done()
-        })
-
-      chai.request(app)
-      .get(`/api/v1/favorites/${newUserId}`)
-        .end((error, response) => {
-          expect(response).to.have.status(200)
-          response.body.should.be.a('array');
+          expect(Object.keys(response.body)).to.deep.equal(['asset_id', 'user_id', 'id'])
           done()
         })
-    })
-      
-    it('should add a favorite to a user' , (done) => {
-      done()
+
+      // chai.request(app)
+      // .get(`/api/v1/favorites/${newUserId}`)
+      //   .end((error, response) => {
+      //     expect(response).to.have.status(200)
+      //     response.body.should.be.a('array');
+      //     done()
+      //   })
     })
     
     it('should not add a favorite if a param is missing', done => {
+      const favorite = {
+        user_id: 2,
+        // asset_id: 1
+      }
       
-      done()
+      chai.request(app)
+      .post('/api/v1/favorites')
+      .send(favorite)
+      .end((error, response) => {
+        expect(response).to.have.status(422)
+        done()
+      })
     })
     
     it('should delete a favorite', done => {
-      done()
+ 
+      const favorite = {
+        user_id: 2,
+        asset_id: 1
+      }
+      
+      chai.request(app)
+      .post('/api/v1/favorites')
+      .send(favorite)
+      .end((error, response) => {
+        expect(response).to.have.status(201)
+      })
+
+      
+      chai.request(app)
+      .delete(`/api/v1/favorites/1`)
+      .end((error, response) => {
+        expect(response.status).to.equal(204)
+        done()
+      })
       
     })
     
     it('should not delete a favorite if one does not exist', done => {
-      done()
+      const favorite = {
+        user_id: 2,
+        asset_id: 1
+      }
+      
+      chai.request(app)
+      .post('/api/v1/favorites')
+      .send(favorite)
+      .end((error, response) => {
+        expect(response).to.have.status(201)
+      })
+
+      
+      chai.request(app)
+      .delete(`/api/v1/favorites/10`)
+      .end((error, response) => {
+        expect(response.status).to.equal(404)
+        done()
+      })
 
     })
   })
