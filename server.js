@@ -12,16 +12,6 @@ app.set('port', process.env.PORT || 3000);
 app.locals.title = 'CryptAnon';
 app.locals.assets = assets;
 
-
-// 1 GET endpoints for all of one resource (i.e. ‘/api/v1/merchants’)
-// 1 GET endpoints for a specific resource (i.e. ‘/api/v1/merchants/:id’)
-
-// 1 POST endpoints
-
-  // add user favorite
-// 1 DELETE endpoints
-  // delete favorite
-
 app.get('/', (request, response) => {
   response.send('This is the home route. HTML, JS, and  CSS go here');
 });
@@ -36,8 +26,6 @@ app.get('/api/v1/assets', (request, response) => {
     })
 })
 
-
-// add query to end of url???
 app.get('/api/v1/assets/:asset_ID/asset_prices', (request, response) => {
   const { asset_ID } = request.params;
   const { uniDate } = request.query;

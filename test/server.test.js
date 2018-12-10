@@ -11,23 +11,9 @@ const database = require('knex')(configuration);
 const should = chai.should();
 chai.use(chaiHttp);
 
-
 let BitcoinID;
 
 describe('Server File', () => {
-  // beforeEach((done) => {
-  //   database.migrate.rollback()
-  //   .then(() => {
-  //     database.migrate.latest()
-  //     .then(() => {
-  //       database.seed.run()
-  //       .then(() => {
-  //         done();
-  //       })
-  //     });
-  //   });
-  // });
-  
   
     it('Returns a 404 status', (done) => {
       chai.request(app)
