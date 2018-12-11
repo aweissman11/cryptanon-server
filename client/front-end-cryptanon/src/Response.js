@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const Response = ({currentSelection, response, error}) => {
   console.log(response.toString())

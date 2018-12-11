@@ -15,21 +15,6 @@ class App extends Component {
     error: false
   };
 
-  componentDidMount() {
-    this.callApi()
-  }
-
-  callApi = async () => {
-    const response = await fetch('/api/v1/assets')
-    console.log(response);
-    const body = await response.json();
-
-    console.log(body);
-    if (response.status !== 200) throw Error(body.message);
-
-    return body;
-  }
-
   updateSelection = (id) => {
     this.setState({
       currentSelection: exampleUrl[id]
@@ -68,7 +53,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+
         <header className="App-header">
+          <h1 className='title'>Cryptanon</h1>
           <Nav updateSelection={this.updateSelection} />
           <UrlInput updateUrl={this.updateUrl} />
         </header>
@@ -79,3 +66,5 @@ class App extends Component {
 }
 
 export default App;
+
+        // <h1 className="title">Cryptanon</h1>
