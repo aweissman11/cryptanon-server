@@ -1,12 +1,39 @@
 import React, { Component } from 'react';
 
-const UrlInput = () => {
-  return(
-    <div className="url-input">
-      <button className="get-btn">GET</button>
-      <input type="text" placeholder="Enter URL" className="input"/>
-    </div>
-  );
+class UrlInput extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      urlAddress: ''
+    }
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      urlAddress: e.target.value
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.props.updateUrl(this.state.urlAddress)
+  }
+
+  render() {
+    return(
+      <form className="url-input" onSubmit={this.handleSubmit} >
+        <button className="get-btn">GET</button>
+        <input 
+          placeholder="Enter URL" 
+          className="input"
+          name='urlAddress'
+          value={this.state.urlAddress}
+          onChange={this.handleChange}
+        />
+      </form>
+    );
+  }
 }
 
 export default UrlInput;

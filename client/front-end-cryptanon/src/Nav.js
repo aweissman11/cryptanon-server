@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 
-const Nav = () => {
+const Nav = ({updateSelection}) => {
   return(
     <div className="nav-bar">
-      <button className="nav-btn">Top 50 Cryptocurrencies</button>
-      <button className="nav-btn">Historical Pricing for Cryptocurrency</button>
-      <button className="nav-btn">Range of Historical Pricing</button>
-      <button className="nav-btn">Top Headlines for Currency</button>
+      <button 
+        className="nav-btn"
+        onClick={() => updateSelection(0)}
+        >Top 50 Cryptocurrencies</button>
+      <button 
+        className="nav-btn"
+        onClick={() => updateSelection(1)}
+        >Historical Pricing for Cryptocurrency</button>
+      <button 
+        className="nav-btn"
+        onClick={() => updateSelection(2)}
+        >Range of Historical Pricing</button>
+      <button 
+        className="nav-btn"
+        onClick={() => updateSelection(3)}
+        >Top Headlines for Currency</button>
     </div>
   );
 }
