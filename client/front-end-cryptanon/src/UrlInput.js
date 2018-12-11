@@ -23,7 +23,7 @@ class UrlInput extends Component {
   render() {
     return(
       <form className="url-input" onSubmit={this.handleSubmit} >
-        <button className="get-btn">GET</button>
+        <p className='host' >http://cryptanon-server.herokuapp.com/</p>
         <input 
           placeholder="Enter URL" 
           className="input"
@@ -31,6 +31,7 @@ class UrlInput extends Component {
           value={this.state.urlAddress}
           onChange={this.handleChange}
         />
+        <button className="get-btn">GET</button>
       </form>
     );
   }

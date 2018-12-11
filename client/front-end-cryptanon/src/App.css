@@ -67,6 +67,16 @@
   margin-top: 50px;
 }
 
+.host {
+  /*border: 1px solid gray;*/
+  color: #324466;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0;
+  padding-top: 14px;
+}
+
 input {
   height: 40px;
   width: 375px;
