@@ -68,7 +68,6 @@
 }
 
 .host {
-  /*border: 1px solid gray;*/
   color: #324466;
   font-size: 12px;
   font-weight: bold;
@@ -97,6 +96,8 @@ h4 {
   color: #6278a2;
 }
 
-p {
+p, pre {
   color: #ffffff;
 }
+
+

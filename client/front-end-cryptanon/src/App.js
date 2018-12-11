@@ -45,6 +45,7 @@ class App extends Component {
   getExample = async () => {
     const response = await fetch(this.state.currentUrl)
     const body = await response.json();
+    console.log(body)
 
     if (response.status !== 200) {
       throw Error(body.message) } else {
@@ -61,7 +62,7 @@ class App extends Component {
           <Nav updateSelection={this.updateSelection} />
           <UrlInput updateUrl={this.updateUrl} />
         </header>
-        <Response currentSelection={this.state.currentSelection} response={this.state.response[0]} />
+        <Response currentSelection={this.state.currentSelection} response={this.state.response} />
       </div>
     );
   }

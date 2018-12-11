@@ -23,7 +23,7 @@ class UrlInput extends Component {
   render() {
     return(
       <form className="url-input" onSubmit={this.handleSubmit} >
-        <p className='host' >http://cryptanon-server.herokuapp.com/</p>
+        <p className='host' >http://cryptanon-server.herokuapp.com</p>
         <input 
           placeholder="Enter URL" 
           className="input"
