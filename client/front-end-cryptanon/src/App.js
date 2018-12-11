@@ -12,6 +12,7 @@ class App extends Component {
     responseToPost: '',
     currentSelection: '',
     currentUrl: '',
+    error: false
   };
 
   componentDidMount() {
@@ -37,21 +38,30 @@ class App extends Component {
 
   updateUrl = async (input) => {
     await this.setState({
-      currentUrl: input
+      currentUrl: input,
+      error: false
     })
     this.getExample()
   }
 
   getExample = async () => {
-    const response = await fetch(this.state.currentUrl)
-    const body = await response.json();
-    console.log(body)
+    try {
+      const response = await fetch(this.state.currentUrl)
+      const body = await response.json();
+      console.log(body)
 
-    if (response.status !== 200) {
-      throw Error(body.message) } else {
-      await this.setState({
-        response: body
-      })
+      if (response.status !== 200) {
+        await this.setState({
+          error: true
+        })
+        throw Error(body.message)
+        } else {
+        await this.setState({
+          response: body
+        })
+      }
+    } catch(error) {
+      console.log(error)
     }
   }
  
@@ -62,7 +72,7 @@ class App extends Component {
           <Nav updateSelection={this.updateSelection} />
           <UrlInput updateUrl={this.updateUrl} />
         </header>
-        <Response currentSelection={this.state.currentSelection} response={this.state.response} />
+        <Response currentSelection={this.state.currentSelection} response={this.state.response} error={this.state.error}/>
       </div>
     );
   }
