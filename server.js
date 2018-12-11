@@ -8,7 +8,7 @@ const config = require('./knexfile')[environment];
 const database = require('knex')(config);
 
 app.use(bodyParser.json());
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 app.locals.title = 'CryptAnon';
 app.locals.assets = assets;
 
