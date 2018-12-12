@@ -64,6 +64,14 @@ describe('Server File', () => {
         .get('/api/v1/merchants')
         .end((error, response) => {
           response.body.should.be.a('array');
+          response.body[0].should.have.property('name');
+          response.body[0].should.have.property('ticker');
+          response.body[0].should.have.property('type');
+          response.body[0].should.have.property('icon_url');
+          response.body[0].should.have.property('website_url');
+          response.body[0].should.have.property('prices');
+          response.body[0].should.have.property('articles');
+          response.body[0].should.have.property('id');
           expect(response.body.length).to.equal(2);
           done();
         });
