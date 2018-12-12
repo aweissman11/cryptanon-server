@@ -151,8 +151,13 @@ app.get('/api/v1/assets/:asset_ID/articles', (request, response) => {
     .orWhere('content', 'ilike', `%${search.toUpperCase()}%`)
     .select()
     .then(article => {
-      console.log(response)
-      response.status(200).json(article)
+      if(article.length) {
+        response.status(200).json(article)
+      } else {
+        response.status(404).json({
+          error: `could not find any articles for asset id: ${asset_ID}`,
+        });
+      }
     })
     .catch(error => {
       response.status(500)
