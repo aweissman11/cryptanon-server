@@ -44,6 +44,7 @@ const createArticleHistory = (knex, article) => {
 
 exports.seed = function(knex, Promise) {
   return knex('asset_prices').del()
+    .then(() => knex('asset_articles').del())
     .then(() => knex('assets').del())
     .then(function () {
       let assetPromises = assets.map( asset => {

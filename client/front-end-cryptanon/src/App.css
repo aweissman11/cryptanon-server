@@ -1,0 +1,155 @@
+.App {
+  display: grid;
+  grid-template-columns: 60% 40%; 
+}
+
+.App-header {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  font-size: calc(10px + 2vmin);
+}
+
+.title {
+  margin-bottom: 50px;
+  font-family: 'Audiowide', cursive;
+  color: #324466;
+}
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  grid-column: 1/2;
+}
+
+.url-input {
+  display: flex;
+  flex-direction: row;
+  grid-column: 1/2;
+}
+
+.get-response {
+  grid-column-start: 2;
+  background-color: #1a2d4d;
+  padding: 340px 10px 10px 30px
+}
+
+.nav-btn,
+.get-btn {
+  outline:none;
+  height: 40px;
+  text-align: center;
+  width: 175px;
+  background: #fff;
+  border: 1px solid gray;
+  color: #324466;
+  letter-spacing: 1px;
+  text-shadow: 0;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.get-btn {
+  color: #3cd483;
+  width: 75px;
+  height: 44px;
+}
+
+.nav-btn:hover {
+  color: white;
+  background: #324466;
+}
+
+.get-btn:hover {
+  color: white;
+  background: #3cd483;
+}
+
+.url-input {
+  margin-top: 50px;
+}
+
+.host {
+  color: #324466;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0;
+  padding-top: 14px;
+}
+
+input {
+  height: 40px;
+  width: 375px;
+  border: 1px solid gray;
+  letter-spacing: 1px;
+  text-shadow: 0;
+  font-size: 12px;
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+.get-response-example {
+  color: #ffffff;
+}
+
+.response {
+  height: 230px;
+  padding-top: 30px;
+  padding-left: 30px;
+}
+
+.response pre {
+  margin: 10px 0;
+  height: 25px;
+  color: #ffffff;
+}
+
+.endpoint-responses {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1/2;
+}
+
+.endpoint {
+  height: 230px;
+  color: #1a2d4d;
+  padding-left: 30px;
+  padding-top: 30px;
+}
+
+.user-endpoints {
+  display: flex;
+  flex-direction: column;
+  grid-column-start: 2;
+  background-color: #1a2d4d;
+}
+
+h4 {
+  color: #6278a2;
+  margin: 0;
+}
+
+h5 {
+  margin: 10px 0;
+  height: 25px;
+  color: #1a2d4d;
+}
+
+p, pre {
+  margin: 10px 0;
+  height: 25px;
+  color: #ffffff;
+}
+
+.endpoint p, pre {
+  margin: 10px 0;
+  height: 25px;
+  color: #1a2d4d;
+}
+
+
