@@ -266,17 +266,6 @@ describe('Server File', () => {
         });
     });
 
-    it('Returns articles for specific asset', done => {
-      chai
-        .request(app)
-        .get(`/api/v1/assets/${BitcoinID}/articles`)
-        .end((error, response) => {
-          response.body.should.be.a('array');
-          expect(response.body.length).to.be.greaterThan(5);
-          done();
-        });
-    });
-
     it('Returns an error if the asset doesnt exist', done => {
       chai
         .request(app)
@@ -309,6 +298,32 @@ describe('Server File', () => {
         });
     });
   });
+
+  describe('/api/v1/assets/:asset_ID/articles', () => {
+
+    it('Returns all articles for specific asset', done => {
+      chai
+        .request(app)
+        .get(`/api/v1/assets/${BitcoinID}/articles`)
+        .end((error, response) => {
+          response.body.should.be.a('array');
+          expect(response.body.length).to.be.greaterThan(5);
+          done();
+        });
+    });
+
+    it('should return all articles containing a search term', done => {
+      chai
+        .request(app)
+        .get(`/api/v1/assets/${BitcoinID}/articles?search=bitcoin`)
+        .end((error, response) => {
+          response.body.should.be.a('array');
+          expect(response.body.length).to.be.greaterThan(0)
+          done();
+        })
+
+    })
+  })
 
   describe('/api/v1/users', () => {
     let newUserId;

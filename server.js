@@ -138,15 +138,21 @@ app.get('/api/v1/assets/:asset_ID/asset_prices', (request, response) => {
   }
 });
 
+// This endpoint was added to search article content and titles.
+// /api/v1/assets/:asset_ID/articles?search=bitcoin
+
 app.get('/api/v1/assets/:asset_ID/articles', (request, response) => {
   const {asset_ID} = request.params;
+  const {search} = request.query;
 
-  database('asset_articles')
-    .where('asset_id', asset_ID)
+  if(search) {
+    database('asset_articles')
+    .where('title', 'ilike', `%${search.toUpperCase()}%`)
+    .orWhere('content', 'ilike', `%${search.toUpperCase()}%`)
     .select()
-    .then(prices => {
-      if (prices.length) {
-        response.status(200).json(prices);
+    .then(article => {
+      if(article.length) {
+        response.status(200).json(article)
       } else {
         response.status(404).json({
           error: `could not find any articles for asset id: ${asset_ID}`,
@@ -154,8 +160,28 @@ app.get('/api/v1/assets/:asset_ID/articles', (request, response) => {
       }
     })
     .catch(error => {
-      response.status(500).json({error});
-    });
+      response.status(500)
+      .json({message: `Error fetching articles: ${error.message}`})
+    })
+
+  } else {
+    database('asset_articles')
+      .where('asset_id', asset_ID)
+      .select()
+      .then(prices => {
+        if (prices.length) {
+          response.status(200).json(prices);
+        } else {
+          response.status(404).json({
+            error: `could not find any articles for asset id: ${asset_ID}`,
+          });
+        }
+      })
+      .catch(error => {
+        response.status(500).json({error});
+      });
+  }
+
 });
 
 app.get('/api/v1/users', (request, response) => {
