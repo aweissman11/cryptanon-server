@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 app.set('port', process.env.PORT || 3001);
 
 app.use(express.static(path.join(__dirname, 'client/front-end-cryptanon/build')))
-app.get('*', function(request, response) {
-  response.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+app.get('/', function(request, response) {
+ response.sendFile(path.join(__dirname, 'client/build', 'index.html'))
 })
 
 app.locals.title = 'CryptAnon';
