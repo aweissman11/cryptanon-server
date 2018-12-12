@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const assets = require('./seedData/seedData.js');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const environment = process.env.NODE_ENV || 'development';
 const config = require('./knexfile')[environment];
@@ -9,6 +10,12 @@ const database = require('knex')(config);
 
 app.use(bodyParser.json());
 app.set('port', process.env.PORT || 3001);
+
+app.use(express.static(path.join(__dirname, 'client/front-end-cryptanon/build')))
+app.get('*', function(request, response) {
+  response.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+})
+
 app.locals.title = 'CryptAnon';
 app.locals.assets = assets;
 
