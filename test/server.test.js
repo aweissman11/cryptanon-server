@@ -64,6 +64,7 @@ describe('Server File', () => {
         .get('/api/v1/merchants')
         .end((error, response) => {
           response.body.should.be.a('array');
+          expect(response.body.length).to.equal(2);
           done();
         });
     });
