@@ -20,10 +20,7 @@ class App extends Component {
 
   callApi = async () => {
     const response = await fetch('/api/v1/assets')
-    console.log(response);
     const body = await response.json();
-
-    console.log(body);
     if (response.status !== 200) throw Error(body.message);
 
     return body;
@@ -61,7 +58,7 @@ class App extends Component {
           <Nav updateSelection={this.updateSelection} />
           <UrlInput updateUrl={this.updateUrl} />
         </header>
-        <Response currentSelection={this.state.currentSelection} response={this.state.response[0]} />
+        <Response currentSelection={this.state.currentSelection} response={this.state.response} />
       </div>
     );
   }
