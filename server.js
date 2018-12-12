@@ -339,5 +339,6 @@ app.listen(app.get('port'), () => {
 module.exports = {
   app,
   database,
-  cleanPrices
+  cleanPrices,
+  cleanArticles
 };

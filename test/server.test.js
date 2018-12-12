@@ -1,6 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const {app, cleanPrices} = require('../server.js');
+const {app, cleanPrices, cleanArticles} = require('../server.js');
 const expect = require('chai').expect;
 // const config = require('../knexfile')[process.env.NODE_ENV]
 
@@ -94,8 +94,68 @@ describe('Server File', () => {
 
       it('should return a clean merge array', () => {
         let result = cleanPrices(mockAssets, mockPrices);
-        console.log(result[0]);
-        expect(result[0]).to.have.property('prices').with.lengthOf(2);
+        expect(result[0])
+          .to.have.property('prices')
+          .with.lengthOf(2);
+      });
+    });
+
+    describe('cleanArticles', () => {
+      let mockAssets = [
+        {
+          id: 1,
+          name: 'Bitcoin',
+          ticker: 'BTC',
+          type: 'cryptocurrency',
+          icon_url: 'https://cdn.coinranking.com/Sy33Krudb/btc.svg',
+          website_url: 'https://bitcoin.org',
+          created_at: '2018-12-10T21:31:39.149Z',
+          updated_at: '2018-12-10T21:31:39.149Z',
+          prices: [],
+          articles: [],
+        },
+      ];
+      let mockArticles = [
+        {
+          id: 2,
+          source: 'Lifehacker.com',
+          author: 'Brendan Hesse',
+          title:
+            "What You Need to Know About HTC's Exodus 1, the 'Blockchain Smartphone'",
+          url:
+            'https://lifehacker.com/what-you-need-to-know-about-htcs-exodus-1-the-blockcha-1830836727',
+          urlToImage:
+            'https://i.kinja-img.com/gawker-media/image/upload/s--i3xzLyJh--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/mjshqherec29uurktgyb.jpg',
+          publishedAt: '2018-12-05T17:00:00Z',
+          content:
+            'Nothing has signaled that weve finally entered the cyber future more than the rise of blockchain networks and cryptocurrency. And that makes HTCs upcoming blockchain-based smartphone, the HTC Exodus 1, one of the most cyberpunk (and strange) devices yet. As w… [+7892 chars]',
+          asset_id: 1,
+          created_at: '2018-12-10T21:31:39.323Z',
+          updated_at: '2018-12-10T21:31:39.323Z',
+        },
+        {
+          id: 3,
+          source: 'Wired',
+          author: 'Noam Cohen',
+          title: "A 1970s Essay Predicted Silicon Valley's High-Minded Tyranny",
+          url:
+            'https://www.wired.com/story/silicon-valley-tyranny-of-structurelessness/',
+          urlToImage:
+            'https://media.wired.com/photos/5beca835e845c10dba280412/191:100/pass/Ideas_Art_Structureless-Noam.jpg',
+          publishedAt: '2018-11-15T12:00:00Z',
+          content:
+            'Jo Freeman is one of those people whom Kipling would praise for keeping her head while those all around are losing theirs. The womens liberation movement of the late 1960s was rebuilding the world in a consciously different way: no designated leaders and no r… [+7147 chars]',
+          asset_id: 1,
+          created_at: '2018-12-10T21:31:39.323Z',
+          updated_at: '2018-12-10T21:31:39.323Z',
+        },
+      ];
+
+      it('should return a clean merge array', () => {
+        let result = cleanArticles(mockAssets, mockArticles);
+        expect(result[0])
+          .to.have.property('articles')
+          .with.lengthOf(2);
       });
     });
 
