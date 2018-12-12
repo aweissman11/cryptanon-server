@@ -4,13 +4,12 @@
 }
 
 .App-header {
-  min-height: 100vh;
+  height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 100px;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .title {
@@ -31,9 +30,10 @@
   grid-column: 1/2;
 }
 
-.response {
+.get-response {
   grid-column-start: 2;
   background-color: #1a2d4d;
+  padding: 340px 10px 10px 30px
 }
 
 .nav-btn,
@@ -93,8 +93,40 @@ input {
   padding-left: 5px;
 }
 
+.get-response-example {
+  color: #ffffff;
+}
+
 .response {
-  padding: 340px 10px 10px 30px
+  height: 230px;
+  padding-top: 30px;
+  padding-left: 30px;
+}
+
+.response pre {
+  margin: 10px 0;
+  height: 25px;
+  color: #ffffff;
+}
+
+.endpoint-responses {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1/2;
+}
+
+.endpoint {
+  height: 230px;
+  color: #1a2d4d;
+  padding-left: 30px;
+  padding-top: 30px;
+}
+
+.user-endpoints {
+  display: flex;
+  flex-direction: column;
+  grid-column-start: 2;
+  background-color: #1a2d4d;
 }
 
 h4 {
@@ -102,10 +134,22 @@ h4 {
   margin: 0;
 }
 
+h5 {
+  margin: 10px 0;
+  height: 25px;
+  color: #1a2d4d;
+}
+
 p, pre {
   margin: 10px 0;
   height: 25px;
   color: #ffffff;
+}
+
+.endpoint p, pre {
+  margin: 10px 0;
+  height: 25px;
+  color: #1a2d4d;
 }
 
 

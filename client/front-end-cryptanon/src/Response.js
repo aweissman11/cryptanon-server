@@ -5,16 +5,16 @@ const Response = ({currentSelection, response, error}) => {
 
   if( error === true ) {
     return(
-      <div className="response">
+      <div className="get-response">
         <h4>Example</h4>
         <p className="example">{ currentSelection }</p>
         <h4>Response</h4>
-        <p>Incorrect URL</p>
+        <p className='get-response-example'>Incorrect URL</p>
       </div>
     )
   } else if (response.length === 0) {
     return(
-      <div className="response">
+      <div className="get-response">
         <h4>Example</h4>
         <p className="example">{ currentSelection }</p>
         <h4>Response</h4>
@@ -22,11 +22,11 @@ const Response = ({currentSelection, response, error}) => {
     )
   } else {
     return(
-      <div className="response">
+      <div className="get-response">
         <h4>Example</h4>
         <p className="example">{ currentSelection }</p>
         <h4>Response</h4>
-        <pre>{JSON.stringify(response, null, 2) }</pre>
+        <pre className='get-response-example'>{JSON.stringify(response[0], null, 2) }</pre>
       </div>
     )
   }

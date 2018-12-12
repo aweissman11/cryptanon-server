@@ -3,7 +3,10 @@ import './App.css';
 import Nav from './Nav';
 import UrlInput from './UrlInput';
 import Response from './Response';
-import exampleUrl from './helper'
+import exampleUrl from './helper';
+import UserEndpoints from './UserEndpoints';
+import EndpointResponses from './EndpointResponses';
+
 
 class App extends Component {
   state = {
@@ -60,11 +63,11 @@ class App extends Component {
           <UrlInput updateUrl={this.updateUrl} />
         </header>
         <Response currentSelection={this.state.currentSelection} response={this.state.response} error={this.state.error}/>
+        <UserEndpoints />
+        <EndpointResponses />
       </div>
     );
   }
 }
 
 export default App;
-
-        // <h1 className="title">Cryptanon</h1>
