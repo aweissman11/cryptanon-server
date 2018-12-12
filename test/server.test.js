@@ -1,6 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const {app} = require('../server.js');
+const {app, cleanPrices} = require('../server.js');
 const expect = require('chai').expect;
 // const config = require('../knexfile')[process.env.NODE_ENV]
 
@@ -56,6 +56,47 @@ describe('Server File', () => {
           expect(response).to.have.status(200);
           done();
         });
+    });
+
+    describe('cleanPrices', () => {
+      let mockAssets = [
+        {
+          id: 1,
+          name: 'Bitcoin',
+          ticker: 'BTC',
+          type: 'cryptocurrency',
+          icon_url: 'https://cdn.coinranking.com/Sy33Krudb/btc.svg',
+          website_url: 'https://bitcoin.org',
+          created_at: '2018-12-10T21:31:39.149Z',
+          updated_at: '2018-12-10T21:31:39.149Z',
+          prices: [],
+          articles: [],
+        },
+      ];
+      let mockPrices = [
+        {
+          id: 1,
+          price: '12746.9771435992',
+          pricing_date: '1512604800000',
+          asset_id: 1,
+          created_at: '2018-12-10T21:31:39.169Z',
+          updated_at: '2018-12-10T21:31:39.169Z',
+        },
+        {
+          id: 2,
+          price: '15229.6409018201',
+          pricing_date: '1512691200000',
+          asset_id: 1,
+          created_at: '2018-12-10T21:31:39.182Z',
+          updated_at: '2018-12-10T21:31:39.182Z',
+        },
+      ];
+
+      it('should return a clean merge array', () => {
+        let result = cleanPrices(mockAssets, mockPrices);
+        console.log(result[0]);
+        expect(result[0]).to.have.property('prices').with.lengthOf(2);
+      });
     });
 
     it('Returns array of assets', done => {
