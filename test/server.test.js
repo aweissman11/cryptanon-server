@@ -53,9 +53,20 @@ describe('Server File', () => {
         .request(app)
         .get('/api/v1/merchants')
         .end((error, response) => {
-          
-        })
-    })
+          expect(response).to.have.status(200);
+          done();
+        });
+    });
+
+    it('Returns array of assets', done => {
+      chai
+        .request(app)
+        .get('/api/v1/merchants')
+        .end((error, response) => {
+          response.body.should.be.a('array');
+          done();
+        });
+    });
   });
 
   describe('/api/v1/assets', () => {
