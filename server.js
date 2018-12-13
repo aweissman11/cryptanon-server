@@ -11,12 +11,12 @@ const database = require('knex')(config);
 app.use(bodyParser.json());
 app.set('port', process.env.PORT || 3001);
 
-if (process.env.NODE_ENV === 'production') {
+// if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/front-end-cryptanon/build')))
   app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname, 'client/front-end-cryptanon/build', 'index.html'))
   })
-}
+// }
 
 
 app.locals.title = 'CryptAnon';
