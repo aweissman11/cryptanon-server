@@ -81,9 +81,9 @@ function cleanArticles(assets, items) {
 // 1 DELETE endpoints
 // delete favorite
 
-app.get('/', (request, response) => {
-  response.send('This is the home route. HTML, JS, and  CSS go here');
-});
+// app.get('/', (request, response) => {
+//   response.send('This is the home route. HTML, JS, and  CSS go here');
+// });
 
 app.get('/api/v1/assets', (request, response) => {
   database('assets')
